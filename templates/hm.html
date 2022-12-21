@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<html lang="">
+<!-- To declare your language - read more here: https://www.w3.org/International/questions/qa-html-language-declarations -->
+<head>
+<title>Sislaf</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="{% static 'hm/layout/styles/layout.css' %}" rel="stylesheet" type="text/css" media="all">
+<style>
+  .dropbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #3e8e41;
+}
+
+#myInput {
+  box-sizing: border-box;
+  background-image: url('searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+
+#myInput:focus {outline: 3px solid #ddd;}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f6f6f6;
+  min-width: 160px;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+  .abcd{
+    height: 100%;
+    background-position: initial;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+</style>
+</head>
+<body id="top">
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- Top Background Image Wrapper -->
+<div class="abcd" style="background-image:url({% static 'hm/images/demo/backgrounds/bg.jpg' %});"> 
+  <!-- ################################################################################################ -->
+
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn">FILTER</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="/">All</a>
+    {% for i in ct %}
+    <a href={{i.get_url}}>{{i.name}}</a>
+    {% endfor %}
+  </div>
+</div>
+<div id="topbar" class="hoc clear">
+  <div class="fl_left"> 
+    <!-- ################################################################################################ -->
+  
+    <!-- ################################################################################################ -->
+    <ul class="nospace" style="position: relative; left:210;">
+      <li id="searchform">
+        <div>
+          <form id="form" action="{% url 'search' %}" method="get">
+            <fieldset>
+              <legend>Quick Search:</legend>
+              <input type="text" placeholder="Enter search Items" name="q">
+              <button type="submit"><i class="fas fa-search"></i></button>
+            </fieldset>
+          </form>
+        </div>
+      </li>
+    </ul>
+    <!-- ################################################################################################ -->
+ 
+</div>
+</div>
+  <!-- ################################################################################################ -->
+  <div id="pageintro" class="hoc clear"> 
+    <!-- ################################################################################################ -->
+    <article>
+      <h3 class="heading">Quality Food Items</h3>
+      <p>Register with us to get good Quality food iteams with your finger tips</p>
+      <footer>
+      </footer>
+    </article>
+    <!-- ################################################################################################ -->
+  </div>
+  <!-- ################################################################################################ -->
+</div>
+<!-- End Top Background Image Wrapper -->
+<!-- ################################################################################################ -->
+
+
+<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+</script>
+<div class="wrapper row3">
+  <main class="hoc container clear"> 
+    <!-- main body -->
+    <!-- ################################################################################################ -->
+    <section id="introblocks">
+      <ul class="nospace group btmspace-80">
+        {% for i in pg.object_list %}
+        <li class="one_third">
+          <figure><a class="imgover" href="{{i.get_url}}"><img src="{{i.img.url}}" alt="" style="height: 200px;width: 250px;"></a>
+            <figcaption>
+              <h6 class="heading">{{i.name}}</h6>
+              <p>{{i.desc | truncatewords:10}}</p>
+              <br>
+             
+            </figcaption>
+          </figure>
+        </li>
+        {% endfor %}
+
+        
+      </ul>
+    </section>
+    <center>
+      {% for p in pg.paginator.page_range %}
+      <a href="?page={{p}}" class="btn btn-light btn-sm {% if pg.number == p %} active {% endif %}">{{p}}</a>
+      {% endfor %}
+    </center>
+    <!-- ################################################################################################ -->
+    <hr class="btmspace-80">
+    <!-- ################################################################################################ -->
+   
+    <!-- ################################################################################################ -->
+    <!-- / main body -->
+    <div class="clear"></div>
+  </main>
+</div>
+<!-- ################################################################################################ -->
+
+<!-- ################################################################################################ -->
+
+<!-- JAVASCRIPTS -->
+<script src="{% static 'hm/layout/scripts/jquery.min.js' %}"></script>
+<script src="{% static 'hm/layout/scripts/jquery.backtotop.js' %}"></script>
+<script src="{% static 'hm/layout/scripts/jquery.mobilemenu.js' %}"></script>
+</body>
+</html>
+{% endblock %}
